@@ -38,6 +38,9 @@
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((tempo) => lenis.raf(tempo * 1000));
     gsap.ticker.lagSmoothing(0);
+    // a página cresce quando o GSAP cria o espaço da seção travada:
+    // o Lenis precisa reler a altura, senão limita a rolagem ao tamanho antigo
+    ScrollTrigger.addEventListener('refresh', () => lenis.resize());
   }
   const travaScroll = (travar) => {
     document.body.classList.toggle('travado', travar);
@@ -92,14 +95,16 @@
     if (e.matches && topo.classList.contains('topo--menu')) abreMenu(false);
   });
 
-  // Com o Lenis, os links internos rolam suave e param logo abaixo do topo
+  // Com o Lenis, os links internos rolam suave. A parada logo abaixo do topo
+  // vem do scroll-margin-top do CSS, que o Lenis já respeita.
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a[href^="#"]');
     if (!link || !lenis) return;
     const alvo = document.querySelector(link.hash);
     if (!alvo) return;
     e.preventDefault();
-    lenis.scrollTo(alvo, { offset: alvo.id === 'inicio' ? 0 : -(topo.offsetHeight - 1), duration: 1.4 });
+    lenis.resize();
+    lenis.scrollTo(alvo, { duration: 1.4 });
   });
 
   // Marca no menu a seção que está na tela
@@ -119,21 +124,6 @@
   /* ---------- 3. A torre dos diferenciais ---------- */
 
   const secaoDiferenciais = document.getElementById('diferenciais');
-  const pavimentos = document.querySelector('[data-pavimentos]');
-
-  if (pavimentos) {
-    const ns = 'http://www.w3.org/2000/svg';
-    const topoY = 34, baseY = 232, andares = 21;
-    for (let i = 1; i < andares; i++) {
-      const y = topoY + ((baseY - topoY) / andares) * i;
-      const linha = document.createElementNS(ns, 'line');
-      linha.setAttribute('x1', '10');
-      linha.setAttribute('x2', '50');
-      linha.setAttribute('y1', y.toFixed(1));
-      linha.setAttribute('y2', y.toFixed(1));
-      pavimentos.appendChild(linha);
-    }
-  }
 
   const cartoes = [...document.querySelectorAll('.cartao')];
   let andarPorMouse = null;
@@ -193,7 +183,8 @@
     const tela = jornada.querySelector('[data-jornada-tela]');
     const painel = jornada.querySelector('[data-jornada-painel]');
     const elNum = jornada.querySelector('[data-jornada-andar]');
-    const elRotulo = jornada.querySelector('[data-jornada-andar-rotulo]');
+    const elZona = jornada.querySelector('[data-jornada-zona]');
+    const elPavimento = jornada.querySelector('[data-jornada-pavimento]');
     const elNome = jornada.querySelector('[data-jornada-nome]');
     const elLinha = jornada.querySelector('[data-jornada-linha]');
     const elContagem = jornada.querySelector('[data-jornada-contagem]');
@@ -205,23 +196,71 @@
       elContagem.textContent = `${k + 1} de ${total}`;
     };
 
-    const rotuloDoAndar = (v) => {
-      if (v === 0) return ['T', 'Térreo'];
-      if (v === 2) return ['2º', 'sobressolo'];
-      if (v === 24) return ['24º', 'andar, rooftop'];
-      return [`${v}º`, 'andar'];
+    // As três paradas do elevador, com a mesma regra de nomes da seção:
+    // a zona em destaque, o pavimento embaixo.
+    const PARADAS_NOMES = {
+      0:  { num: 'T',   zona: 'Térreo',  pavimento: 'Recepção e Albor Market', acesa: 'terreo' },
+      2:  { num: '2º',  zona: 'Lazer',   pavimento: '2º sobressolo',           acesa: 'sobressolo' },
+      24: { num: '24º', zona: 'Rooftop', pavimento: '24º pavimento',           acesa: 'rooftop' },
     };
+    let sentido = 1;          // 1 subindo, -1 descendo
+    let valorAnterior = null;
+    let paradaAnterior = null;
+
+    // Entre as paradas o painel vira o mostrador do elevador:
+    // o número conta os pavimentos e a linha de baixo diz para onde ele vai.
+    const rotuloDoAndar = (v) => {
+      if (PARADAS_NOMES[v]) return PARADAS_NOMES[v];
+      const destino = sentido > 0 ? (v < 2 ? 'Lazer' : 'Rooftop') : (v > 2 ? 'Lazer' : 'Térreo');
+      return {
+        num: v === 1 ? '1º' : `${v}º`,
+        zona: sentido > 0 ? 'Subindo' : 'Descendo',
+        pavimento: `Próxima parada: ${destino}`,
+        acesa: sentido > 0 ? 'subindo' : 'descendo',
+      };
+    };
+
+    // Altura da cabine no desenho do prédio (coordenada y do símbolo, de 0 a 300),
+    // casada com o desenho: térreo, deck de lazer, os 20 pavimentos de
+    // apartamentos (3º ao 22º) e a coroa do rooftop. Pares [pavimento, y].
+    const PARADAS = [[0, 272], [1, 240], [2, 229], [3, 218], [22, 66], [24, 50]];
+    const alturaDaCabine = (valor) => {
+      for (let k = 1; k < PARADAS.length; k++) {
+        const [f0, y0] = PARADAS[k - 1], [f1, y1] = PARADAS[k];
+        if (valor <= f1) return y0 + (y1 - y0) * ((valor - f0) / (f1 - f0));
+      }
+      return PARADAS[PARADAS.length - 1][1];
+    };
+
     const mostraAndar = (valor) => {
+      if (valorAnterior !== null && Math.abs(valor - valorAnterior) > 0.001) {
+        sentido = valor > valorAnterior ? 1 : -1;
+      }
+      valorAnterior = valor;
       const v = Math.round(valor);
-      const [num, rotulo] = rotuloDoAndar(v);
+      const { num, zona, pavimento, acesa } = rotuloDoAndar(v);
       if (elNum.textContent !== num) elNum.textContent = num;
-      if (elRotulo.textContent !== rotulo) elRotulo.textContent = rotulo;
-      elevador.style.bottom = `${(valor / 24) * 100}%`;
+      if (elZona.textContent !== zona) elZona.textContent = zona;
+      if (elPavimento.textContent !== pavimento) elPavimento.textContent = pavimento;
+      if (jornada.dataset.zona !== acesa) jornada.dataset.zona = acesa;
+      elevador.style.bottom = `${((300 - alturaDaCabine(Math.max(0, valor))) / 300) * 100}%`;
+
+      // chegou a uma parada vindo de outro andar: a luz pulsa uma vez
+      const parada = PARADAS_NOMES[v] && Math.abs(valor - v) < 0.02 ? v : null;
+      if (parada !== null && paradaAnterior !== null && parada !== paradaAnterior && !movimentoReduzido) {
+        elevador.classList.remove('chegou');
+        void elevador.offsetWidth;
+        elevador.classList.add('chegou');
+      }
+      if (parada !== null) paradaAnterior = parada;
     };
 
     // Movimento reduzido ou sem GSAP: uma imagem fixa e scroll normal
     if (movimentoReduzido || !temGsap) {
       jornada.classList.add('jornada--estatica');
+      // a imagem fixa só é baixada neste modo
+      const fixa = jornada.querySelector('.jornada__estatica');
+      if (fixa && fixa.dataset.src) fixa.src = fixa.dataset.src;
       mostraTextos(6);
       mostraAndar(24);
       return;
@@ -342,7 +381,8 @@
     }
 
     // Só baixa as imagens da subida depois que a página abriu (load) e quando a
-    // seção está a menos de uma tela de distância: a abertura carrega sem disputa.
+    // seção está a meia tela de distância: a abertura carrega sem disputa, e ainda
+    // sobra mais de uma tela de rolagem para as imagens chegarem antes da seção.
     let carregou = false;
     const observaProximidade = () => {
       new IntersectionObserver((entradas, obs) => {
@@ -350,7 +390,7 @@
         carregou = true;
         carrega();
         obs.disconnect();
-      }, { rootMargin: '100% 0px' }).observe(jornada);
+      }, { rootMargin: '50% 0px' }).observe(jornada);
     };
     if (document.readyState === 'complete') observaProximidade();
     else window.addEventListener('load', observaProximidade, { once: true });

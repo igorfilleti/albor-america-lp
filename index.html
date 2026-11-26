@@ -21,15 +21,61 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Hanken+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Hanken+Grotesk:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Hanken+Grotesk:wght@400;600&display=swap" rel="stylesheet"></noscript>
 
-  <link rel="preload" as="image" href="img/albor_vista_drone_01_860.webp" imagesrcset="img/albor_vista_drone_01_860.webp 860w, img/albor_vista_drone_01.webp 1200w" imagesizes="100vw" media="(orientation: portrait)">
-  <link rel="preload" as="image" href="img/albor_fachada_01_1280.webp" imagesrcset="img/albor_fachada_01_1280.webp 1280w, img/albor_fachada_01.webp 1920w" imagesizes="100vw" media="(orientation: landscape)">
+  <link rel="preload" fetchpriority="high" as="image" href="img/albor_vista_drone_01_860.webp" imagesrcset="img/albor_vista_drone_01_860.webp 860w, img/albor_vista_drone_01.webp 1200w" imagesizes="100vw" media="(orientation: portrait)">
+  <link rel="preload" fetchpriority="high" as="image" href="img/albor_fachada_01_1280.webp" imagesrcset="img/albor_fachada_01_1280.webp 1280w, img/albor_fachada_01.webp 1920w" imagesizes="100vw" media="(orientation: landscape)">
 
   <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
   <a class="pular" href="#contato">Pular para o contato</a>
+
+  <!-- O prédio do Albor, desenhado uma vez e usado na seção de diferenciais e na subida.
+       As cores de cada zona vêm de variáveis CSS (--z-rooftop, --z-lazer, --z-terreo...). -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="predio" viewBox="0 0 120 300">
+      <g fill="none" stroke="var(--traco)" stroke-width="1" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round">
+        <!-- Térreo: portões de garagem nas pontas, entrada de vidro sob a marquise, jardineiras -->
+        <rect class="predio__zona" x="6" y="256" width="108" height="28" fill="var(--z-terreo)" />
+        <path d="M11 265h18v19h-18zM91 265h18v19h-18z" fill="var(--escuro)" />
+        <path d="M50 264h20v20h-20z" fill="var(--vidro)" />
+        <path d="M40 259h40v3h-40z" fill="var(--aleta)" />
+        <path d="M33 277.5h14v6.5h-14zM73 277.5h14v6.5h-14z" fill="var(--folha)" />
+        <!-- faixa de ripado de madeira -->
+        <rect x="6" y="247" width="108" height="9" fill="var(--madeira)" />
+        <path d="M8 247.6v7.8M10.4 247.6v7.8M12.8 247.6v7.8M15.2 247.6v7.8M17.6 247.6v7.8M20 247.6v7.8M22.4 247.6v7.8M24.8 247.6v7.8M27.2 247.6v7.8M29.6 247.6v7.8M32 247.6v7.8M34.4 247.6v7.8M36.8 247.6v7.8M39.2 247.6v7.8M41.6 247.6v7.8M44 247.6v7.8M46.4 247.6v7.8M48.8 247.6v7.8M51.2 247.6v7.8M53.6 247.6v7.8M56 247.6v7.8M58.4 247.6v7.8M60.8 247.6v7.8M63.2 247.6v7.8M65.6 247.6v7.8M68 247.6v7.8M70.4 247.6v7.8M72.8 247.6v7.8M75.2 247.6v7.8M77.6 247.6v7.8M80 247.6v7.8M82.4 247.6v7.8M84.8 247.6v7.8M87.2 247.6v7.8M89.6 247.6v7.8M92 247.6v7.8M94.4 247.6v7.8M96.8 247.6v7.8M99.2 247.6v7.8M101.6 247.6v7.8M104 247.6v7.8M106.4 247.6v7.8M108.8 247.6v7.8M111.2 247.6v7.8" stroke-opacity="0.3" />
+        <!-- 1º sobressolo -->
+        <rect x="6" y="233" width="108" height="14" fill="var(--neutro)" />
+        <!-- Torre: corpo cor de areia, coroa do rooftop e vãos de pé-direito duplo -->
+        <rect x="30" y="38" width="60" height="187" fill="var(--corpo)" />
+        <rect class="predio__zona" x="30" y="38" width="60" height="24" fill="var(--z-rooftop)" />
+        <path d="M33 45h6v14h-6zM45.5 45h15v14h-15zM65.5 45h9.5v14h-9.5zM82 45h7v14h-7z" fill="var(--vidro)" />
+        <circle cx="36" cy="56.6" r="2.3" fill="var(--folha)" />
+        <circle cx="70.2" cy="56.6" r="2.3" fill="var(--folha)" />
+        <circle cx="85.5" cy="56.6" r="2.3" fill="var(--folha)" />
+        <path d="M50 31h20v7h-20z" fill="var(--corpo)" />
+        <path d="M30 70h60M30 78h60M30 86h60M30 94h60M30 102h60M30 110h60M30 118h60M30 126h60M30 134h60M30 142h60M30 150h60M30 158h60M30 166h60M30 174h60M30 182h60M30 190h60M30 198h60M30 206h60M30 214h60" stroke-opacity="0.16" />
+        <path d="M33.5 64h5v4h-5zM64 64h4.5v4h-4.5zM70.5 64h4.5v4h-4.5zM33.5 72h5v4h-5zM64 72h4.5v4h-4.5zM70.5 72h4.5v4h-4.5zM33.5 80h5v4h-5zM64 80h4.5v4h-4.5zM70.5 80h4.5v4h-4.5zM33.5 88h5v4h-5zM64 88h4.5v4h-4.5zM70.5 88h4.5v4h-4.5zM33.5 96h5v4h-5zM64 96h4.5v4h-4.5zM70.5 96h4.5v4h-4.5zM33.5 104h5v4h-5zM64 104h4.5v4h-4.5zM70.5 104h4.5v4h-4.5zM33.5 112h5v4h-5zM64 112h4.5v4h-4.5zM70.5 112h4.5v4h-4.5zM33.5 120h5v4h-5zM64 120h4.5v4h-4.5zM70.5 120h4.5v4h-4.5zM33.5 128h5v4h-5zM64 128h4.5v4h-4.5zM70.5 128h4.5v4h-4.5zM33.5 136h5v4h-5zM64 136h4.5v4h-4.5zM70.5 136h4.5v4h-4.5zM33.5 144h5v4h-5zM64 144h4.5v4h-4.5zM70.5 144h4.5v4h-4.5zM33.5 152h5v4h-5zM64 152h4.5v4h-4.5zM70.5 152h4.5v4h-4.5zM33.5 160h5v4h-5zM64 160h4.5v4h-4.5zM70.5 160h4.5v4h-4.5zM33.5 168h5v4h-5zM64 168h4.5v4h-4.5zM70.5 168h4.5v4h-4.5zM33.5 176h5v4h-5zM64 176h4.5v4h-4.5zM70.5 176h4.5v4h-4.5zM33.5 184h5v4h-5zM64 184h4.5v4h-4.5zM70.5 184h4.5v4h-4.5zM33.5 192h5v4h-5zM64 192h4.5v4h-4.5zM70.5 192h4.5v4h-4.5zM33.5 200h5v4h-5zM64 200h4.5v4h-4.5zM70.5 200h4.5v4h-4.5zM33.5 208h5v4h-5zM64 208h4.5v4h-4.5zM70.5 208h4.5v4h-4.5zM33.5 216h5v4h-5zM64 216h4.5v4h-4.5zM70.5 216h4.5v4h-4.5z" fill="var(--janela)" stroke="none" />
+        <path d="M46 63.4h14v5.2h-14zM82.4 63.4h6.2v5.2h-6.2zM46 71.4h14v5.2h-14zM82.4 71.4h6.2v5.2h-6.2zM46 79.4h14v5.2h-14zM82.4 79.4h6.2v5.2h-6.2zM46 87.4h14v5.2h-14zM82.4 87.4h6.2v5.2h-6.2zM46 95.4h14v5.2h-14zM82.4 95.4h6.2v5.2h-6.2zM46 103.4h14v5.2h-14zM82.4 103.4h6.2v5.2h-6.2zM46 111.4h14v5.2h-14zM82.4 111.4h6.2v5.2h-6.2zM46 119.4h14v5.2h-14zM82.4 119.4h6.2v5.2h-6.2zM46 127.4h14v5.2h-14zM82.4 127.4h6.2v5.2h-6.2zM46 135.4h14v5.2h-14zM82.4 135.4h6.2v5.2h-6.2zM46 143.4h14v5.2h-14zM82.4 143.4h6.2v5.2h-6.2zM46 151.4h14v5.2h-14zM82.4 151.4h6.2v5.2h-6.2zM46 159.4h14v5.2h-14zM82.4 159.4h6.2v5.2h-6.2zM46 167.4h14v5.2h-14zM82.4 167.4h6.2v5.2h-6.2zM46 175.4h14v5.2h-14zM82.4 175.4h6.2v5.2h-6.2zM46 183.4h14v5.2h-14zM82.4 183.4h6.2v5.2h-6.2zM46 191.4h14v5.2h-14zM82.4 191.4h6.2v5.2h-6.2zM46 199.4h14v5.2h-14zM82.4 199.4h6.2v5.2h-6.2zM46 207.4h14v5.2h-14zM82.4 207.4h6.2v5.2h-6.2zM46 215.4h14v5.2h-14zM82.4 215.4h6.2v5.2h-6.2z" fill="var(--vidro)" stroke-opacity="0.45" />
+        <path d="M45.6 68.6h14.8M82 68.6h7M45.6 76.6h14.8M82 76.6h7M45.6 84.6h14.8M82 84.6h7M45.6 92.6h14.8M82 92.6h7M45.6 100.6h14.8M82 100.6h7M45.6 108.6h14.8M82 108.6h7M45.6 116.6h14.8M82 116.6h7M45.6 124.6h14.8M82 124.6h7M45.6 132.6h14.8M82 132.6h7M45.6 140.6h14.8M82 140.6h7M45.6 148.6h14.8M82 148.6h7M45.6 156.6h14.8M82 156.6h7M45.6 164.6h14.8M82 164.6h7M45.6 172.6h14.8M82 172.6h7M45.6 180.6h14.8M82 180.6h7M45.6 188.6h14.8M82 188.6h7M45.6 196.6h14.8M82 196.6h7M45.6 204.6h14.8M82 204.6h7M45.6 212.6h14.8M82 212.6h7M45.6 220.6h14.8M82 220.6h7" stroke-opacity="0.8" />
+        <!-- as duas aletas brancas que sobem acima da cobertura -->
+        <path d="M41 33h3.6v192h-3.6zM77 33h3.6v192h-3.6z" fill="var(--aleta)" />
+        <!-- 2º sobressolo: deck de lazer, guarda-corpo de vidro, palmeiras e o pavilhão do Albor Club -->
+        <rect x="8" y="219" width="104" height="6" fill="var(--vidro)" stroke-opacity="0.5" />
+        <path d="M8 208h24v3h-24z" fill="var(--aleta)" />
+        <path d="M10 211v8M30 211v8" />
+        <path d="M13 211.5h8v7.5h-8z" fill="var(--madeira)" stroke-opacity="0.5" />
+        <path d="M66 222.2h22v2.6h-22z" fill="var(--agua)" stroke="none" />
+        <path d="M37 225l1 -10.5M38 214.5q-4 -1.2 -6.5 2M38 214.5q4 -1.2 6.5 2M38 214.5q-1.5 -3.6 -4.6 -4.6M38 214.5q1.5 -3.6 4.6 -4.6M95 225l1 -10.5M96 214.5q-4 -1.2 -6.5 2M96 214.5q4 -1.2 6.5 2M96 214.5q-1.5 -3.6 -4.6 -4.6M96 214.5q1.5 -3.6 4.6 -4.6M105 225l1 -10.5M106 214.5q-4 -1.2 -6.5 2M106 214.5q4 -1.2 6.5 2M106 214.5q-1.5 -3.6 -4.6 -4.6M106 214.5q1.5 -3.6 4.6 -4.6" stroke="var(--folha-escura)" />
+        <rect class="predio__zona" x="6" y="225" width="108" height="8" fill="var(--z-lazer)" />
+        <!-- chão -->
+        <path d="M0 284h120" stroke-width="1.5" />
+      </g>
+    </symbol>
+  </svg>
 
   <!-- 1. Topo fixo -->
   <header class="topo" data-topo>
@@ -88,18 +134,11 @@
         </div>
 
         <figure class="torre" aria-hidden="true" data-torre>
-          <svg class="torre__svg" viewBox="0 0 60 300">
-            <rect class="torre__predio" x="10" y="20" width="40" height="266" />
-            <g class="torre__pavimentos" data-pavimentos></g>
-            <rect class="torre__faixa" data-andar="rooftop" x="6" y="12" width="48" height="22" />
-            <rect class="torre__faixa" data-andar="sobressolo" x="6" y="232" width="48" height="16" />
-            <rect class="torre__faixa" data-andar="terreo" x="6" y="266" width="48" height="20" />
-            <line class="torre__chao" x1="0" y1="286" x2="60" y2="286" />
-          </svg>
+          <svg class="torre__svg" viewBox="0 0 120 300"><use href="#predio" /></svg>
           <ol class="torre__rotulos">
-            <li data-andar="rooftop" style="--y: 7.6%">Rooftop, 24º</li>
-            <li data-andar="sobressolo" style="--y: 80%">2º sobressolo</li>
-            <li data-andar="terreo" style="--y: 92%">Térreo</li>
+            <li data-andar="rooftop" style="--y: 16.7%"><strong>Rooftop</strong><span>24º pavimento</span></li>
+            <li data-andar="sobressolo" style="--y: 73%"><strong>Lazer</strong><span>2º sobressolo</span></li>
+            <li data-andar="terreo" style="--y: 90%"><strong>Térreo</strong><span>Recepção e Albor Market</span></li>
           </ol>
         </figure>
       </div>
@@ -108,18 +147,21 @@
       <div class="jornada-faixa">
       <div class="jornada" data-jornada role="region" aria-label="Uma subida pelo Albor América, do térreo ao rooftop">
         <div class="jornada__palco" data-jornada-palco>
-          <img class="jornada__estatica" src="img/jornada/albor_jornada_07.webp" width="1600" height="900" loading="lazy" decoding="async"
+          <img class="jornada__estatica" data-src="img/jornada/albor_jornada_07.webp" width="1600" height="900" loading="lazy" decoding="async"
                alt="Fire lounge no rooftop ao entardecer: sofá curvo ao redor da lareira acesa, entre folhagens iluminadas">
           <canvas class="jornada__tela" data-jornada-tela aria-hidden="true"></canvas>
           <div class="jornada__veu" aria-hidden="true"></div>
 
           <div class="jornada__conteudo">
-            <p class="jornada__titulo">Do térreo ao 24º andar, da manhã à noite.</p>
+            <p class="jornada__titulo">Do térreo ao rooftop, da manhã à noite.</p>
 
             <div class="jornada__painel" data-jornada-painel aria-hidden="true">
               <p class="jornada__andar">
                 <span class="jornada__andar-num" data-jornada-andar>T</span>
-                <span class="jornada__andar-rotulo" data-jornada-andar-rotulo>Térreo</span>
+                <span class="jornada__andar-texto">
+                  <strong data-jornada-zona>Térreo</strong>
+                  <span data-jornada-pavimento>Nível da rua</span>
+                </span>
               </p>
               <h3 class="jornada__nome" data-jornada-nome>Recepção</h3>
               <p class="jornada__linha" data-jornada-linha>A chegada, com jardim interno e luz natural.</p>
@@ -127,9 +169,10 @@
             </div>
 
             <div class="jornada__trilho" aria-hidden="true">
-              <span class="jornada__marca" style="--f: 24">24º</span>
-              <span class="jornada__marca" style="--f: 2">2º</span>
-              <span class="jornada__marca" style="--f: 0">Térreo</span>
+              <svg class="jornada__predio" viewBox="0 0 120 300">
+                <use href="#predio" />
+                <path class="jornada__poco" d="M60 36V280" />
+              </svg>
               <span class="jornada__elevador" data-jornada-elevador></span>
             </div>
           </div>
@@ -138,10 +181,10 @@
         <ol class="sr">
           <li>Térreo: recepção com jardim interno.</li>
           <li>Térreo: Albor Market, o minimercado do prédio.</li>
-          <li>2º sobressolo: piscina lounge de dia e ao pôr do sol.</li>
-          <li>2º sobressolo: quadra poliesportiva ao fim da tarde.</li>
-          <li>24º andar: Albor Gym com vista para o pôr do sol.</li>
-          <li>24º andar: fire lounge ao entardecer e à noite.</li>
+          <li>Lazer, 2º sobressolo: piscina lounge de dia e ao pôr do sol.</li>
+          <li>Lazer, 2º sobressolo: quadra poliesportiva ao fim da tarde.</li>
+          <li>Rooftop, 24º pavimento: Albor Gym com vista para o pôr do sol.</li>
+          <li>Rooftop, 24º pavimento: fire lounge ao entardecer e à noite.</li>
         </ol>
       </div>
       </div>
@@ -151,7 +194,7 @@
           <img class="cartao__foto" src="img/albor_fire_lounge_01_600.webp" srcset="img/albor_fire_lounge_01_600.webp 600w, img/albor_fire_lounge_01.webp 900w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 100vw" width="900" height="506" loading="lazy" decoding="async"
                alt="Fire lounge no rooftop ao pôr do sol: sofá curvo branco ao redor de uma lareira acesa, cercado de folhagens">
           <div class="cartao__corpo">
-            <p class="cartao__andar">Rooftop, 24º andar</p>
+            <p class="cartao__andar">Rooftop, 24º pavimento</p>
             <h3 class="cartao__titulo">
               <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-3.6 0-6-2.4-6-5.6 0-3.4 2.8-5 3.6-8.4 1.9 1.3 2.6 3.2 2.4 5 1-.6 1.7-1.6 1.9-2.9 1.6 1.5 4.1 3.6 4.1 6.3C18 18.6 15.6 21 12 21Z"/><path d="M12 21c-1.5 0-2.5-1-2.5-2.4 0-1.5 1.3-2.2 2.5-3.6 1.2 1.4 2.5 2.1 2.5 3.6 0 1.4-1 2.4-2.5 2.4Z"/></svg>
               Fire lounge e skybar
@@ -163,7 +206,7 @@
           <img class="cartao__foto" src="img/albor_gym_e_box_02_600.webp" srcset="img/albor_gym_e_box_02_600.webp 600w, img/albor_gym_e_box_02.webp 900w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 100vw" width="900" height="506" loading="lazy" decoding="async"
                alt="Albor Gym no fim da tarde: esteiras e aparelhos de musculação diante de janelas do piso ao teto">
           <div class="cartao__corpo">
-            <p class="cartao__andar">Rooftop, 24º andar</p>
+            <p class="cartao__andar">Rooftop, 24º pavimento</p>
             <h3 class="cartao__titulo">
               <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg>
               Albor Gym e Albor Box
@@ -175,7 +218,7 @@
           <img class="cartao__foto" src="img/albor_coworking_01_600.webp" srcset="img/albor_coworking_01_600.webp 600w, img/albor_coworking_01.webp 900w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 100vw" width="900" height="394" loading="lazy" decoding="async"
                alt="Coworking com mesa compartilhada, cadeiras de escritório e cabine de reunião em vidro e madeira">
           <div class="cartao__corpo">
-            <p class="cartao__andar">Rooftop, 24º andar</p>
+            <p class="cartao__andar">Rooftop, 24º pavimento</p>
             <h3 class="cartao__titulo">
               <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="5" width="15" height="10" rx="1"/><path d="M2.5 18.5h19"/></svg>
               Coworking
@@ -187,7 +230,7 @@
           <img class="cartao__foto" src="img/albor_piscina_03_600.webp" srcset="img/albor_piscina_03_600.webp 600w, img/albor_piscina_03.webp 900w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 100vw" width="900" height="468" loading="lazy" decoding="async"
                alt="Piscina lounge e piscina kids sob céu azul, com espreguiçadeiras ao longo do deck">
           <div class="cartao__corpo">
-            <p class="cartao__andar">2º sobressolo</p>
+            <p class="cartao__andar">Lazer, 2º sobressolo</p>
             <h3 class="cartao__titulo">
               <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 15c1.6 0 1.6 1.2 3.2 1.2S7.3 15 8.9 15s1.6 1.2 3.1 1.2 1.6-1.2 3.2-1.2 1.6 1.2 3.2 1.2 1.6-1.2 3.1-1.2M2.5 19c1.6 0 1.6 1.2 3.2 1.2S7.3 19 8.9 19s1.6 1.2 3.1 1.2 1.6-1.2 3.2-1.2 1.6 1.2 3.2 1.2 1.6-1.2 3.1-1.2M8 13V5.5a2 2 0 0 1 4 0M16 13V5.5a2 2 0 0 0-2-2M8 9h8"/></svg>
               Piscina lounge e piscina kids
@@ -199,7 +242,7 @@
           <img class="cartao__foto" src="img/albor_parquinho_pet_quadra_06_600.webp" srcset="img/albor_parquinho_pet_quadra_06_600.webp 600w, img/albor_parquinho_pet_quadra_06.webp 900w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 100vw" width="900" height="502" loading="lazy" decoding="async"
                alt="Quadra poliesportiva ao entardecer, com tabela de basquete, gol e palmeiras ao fundo">
           <div class="cartao__corpo">
-            <p class="cartao__andar">2º sobressolo</p>
+            <p class="cartao__andar">Lazer, 2º sobressolo</p>
             <h3 class="cartao__titulo">
               <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="8" r="1.8"/><circle cx="12" cy="5.5" r="1.8"/><circle cx="17" cy="8" r="1.8"/><path d="M12 11c-3 0-5.5 3.6-5.5 6.2 0 1.6 1.2 2.3 2.6 2.3 1.3 0 1.8-.7 2.9-.7s1.6.7 2.9.7c1.4 0 2.6-.7 2.6-2.3C17.5 14.6 15 11 12 11Z"/></svg>
               Parquinho, espaço pet e quadra

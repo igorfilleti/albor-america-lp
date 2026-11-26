@@ -674,8 +674,7 @@ section[id] { scroll-margin-top: calc(var(--topo) - 1px); }
       "torre";
     gap: 18px;
   }
-  .diferenciais__intro .torre { margin-top: 12px; justify-self: start; }
-  .torre__svg { width: 36px; }
+  .diferenciais__intro .torre { margin-top: 16px; justify-self: start; }
 }
 
 @media (min-width: 900px) {
@@ -688,89 +687,119 @@ section[id] { scroll-margin-top: calc(var(--topo) - 1px); }
   .diferenciais__intro .titulo-secao { align-self: end; }
 }
 
-/* a torre: um corte do prédio, sobre uma malha de pontos de planta */
+/* ---------- O prédio (símbolo #predio no index.html) ----------
+   O mesmo desenho aparece aqui e na subida. Cada parte pega a cor
+   de uma variável; as das zonas são registradas como cor para
+   poderem transicionar suavemente. */
+@property --z-rooftop { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --z-lazer   { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --z-terreo  { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --janela    { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
 .torre {
+  /* paleta do prédio no fundo claro, com as cores reais da fachada */
+  --traco: rgba(20, 35, 33, 0.45);
+  --corpo: #E9DDC8;          /* areia da fachada */
+  --aleta: #FCFBF7;          /* aletas brancas */
+  --janela: rgba(20, 35, 33, 0.42);
+  --vidro: rgba(58, 126, 123, 0.26);
+  --escuro: rgba(20, 35, 33, 0.55);
+  --madeira: #BC8F62;        /* ripado */
+  --neutro: #E1D6C2;
+  --agua: #7FC0C9;
+  --folha: #9DB8A4;
+  --folha-escura: #5E826B;
+  --zona: #E1D3BB;
+  --zona-ativa: #3A8A86;
+  --z-rooftop: var(--zona);
+  --z-lazer: var(--zona);
+  --z-terreo: var(--zona);
   position: relative;
   display: grid;
   grid-template-columns: auto auto;
-  gap: 10px;
+  gap: 16px;
   align-items: stretch;
   isolation: isolate;
+  transition: --z-rooftop 0.4s ease, --z-lazer 0.4s ease, --z-terreo 0.4s ease;
 }
+/* malha de pontos de planta atrás do prédio */
 .torre::before {
   content: "";
   position: absolute;
-  inset: -28px 0 -20px -36px;
+  inset: -24px 0 -16px -32px;
   z-index: -1;
-  background-image: radial-gradient(rgba(20, 35, 33, 0.22) 1px, transparent 1.4px);
+  background-image: radial-gradient(rgba(20, 35, 33, 0.2) 1px, transparent 1.4px);
   background-size: 12px 12px;
   -webkit-mask-image: radial-gradient(closest-side, #000 35%, transparent);
   mask-image: radial-gradient(closest-side, #000 35%, transparent);
 }
 .torre__svg {
-  width: clamp(40px, 9vw, 58px);
+  width: clamp(96px, 22vw, 128px);
   height: auto;
-  aspect-ratio: 60 / 300;
+  aspect-ratio: 120 / 300;
   overflow: visible;
 }
-.torre__predio {
-  fill: rgba(251, 251, 248, 0.7);
-  stroke: rgba(20, 35, 33, 0.55);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-}
-.torre__pavimentos line {
-  stroke: rgba(20, 35, 33, 0.16);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-}
-.torre__chao {
-  stroke: var(--tinta);
-  stroke-width: 1.5;
-  vector-effect: non-scaling-stroke;
-}
-.torre__faixa {
-  fill: var(--petroleo);
-  opacity: 0.85;
-  rx: 2;
-  transition: fill 0.35s ease, opacity 0.35s ease;
-}
 
+/* rótulos: o nome da zona em destaque, o pavimento embaixo */
 .torre__rotulos {
   position: relative;
-  min-width: 6.5rem;
+  min-width: 10rem;
 }
 .torre__rotulos li {
   position: absolute;
   left: 0;
   top: var(--y);
   transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  padding-left: 18px;
   white-space: nowrap;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: rgba(20, 35, 33, 0.7);
+  line-height: 1.25;
+  color: rgba(20, 35, 33, 0.62);
+  transition: color 0.35s ease, opacity 0.35s ease;
+}
+/* fio de chamada até o prédio */
+.torre__rotulos li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 10px;
+  height: 1px;
+  background: currentColor;
+}
+.torre__rotulos strong {
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: 1.125rem;
+  color: var(--tinta);
   transition: color 0.35s ease;
 }
+.torre__rotulos span { font-size: 0.75rem; }
 
-.diferenciais[data-andar-ativo] .torre__faixa { opacity: 0.22; }
-.diferenciais[data-andar-ativo] .torre__rotulos li { color: rgba(20, 35, 33, 0.38); }
-.diferenciais[data-andar-ativo="rooftop"] .torre__faixa[data-andar="rooftop"],
-.diferenciais[data-andar-ativo="sobressolo"] .torre__faixa[data-andar="sobressolo"],
-.diferenciais[data-andar-ativo="terreo"] .torre__faixa[data-andar="terreo"] {
-  fill: var(--freijo);
-  opacity: 1;
-}
+/* zona em destaque (cartão sob o mouse ou no meio da tela) */
+.diferenciais[data-andar-ativo="rooftop"] .torre { --z-rooftop: var(--zona-ativa); }
+.diferenciais[data-andar-ativo="sobressolo"] .torre { --z-lazer: var(--zona-ativa); }
+.diferenciais[data-andar-ativo="terreo"] .torre { --z-terreo: var(--zona-ativa); }
+.diferenciais[data-andar-ativo] .torre__rotulos li { opacity: 0.45; }
 .diferenciais[data-andar-ativo="rooftop"] .torre__rotulos [data-andar="rooftop"],
 .diferenciais[data-andar-ativo="sobressolo"] .torre__rotulos [data-andar="sobressolo"],
 .diferenciais[data-andar-ativo="terreo"] .torre__rotulos [data-andar="terreo"] {
-  color: var(--freijo);
+  opacity: 1;
+  color: var(--petroleo);
+}
+.diferenciais[data-andar-ativo="rooftop"] .torre__rotulos [data-andar="rooftop"] strong,
+.diferenciais[data-andar-ativo="sobressolo"] .torre__rotulos [data-andar="sobressolo"] strong,
+.diferenciais[data-andar-ativo="terreo"] .torre__rotulos [data-andar="terreo"] strong {
+  color: var(--petroleo);
 }
 
 @media (min-width: 700px) {
   .diferenciais__intro { gap: 48px; }
-  .torre { gap: 16px; }
-  .torre__rotulos li { font-size: 0.875rem; }
-  .torre__rotulos { min-width: 8rem; }
+  .torre { gap: 20px; }
+  .torre__rotulos strong { font-size: 1.25rem; }
+  .torre__rotulos span { font-size: 0.8125rem; }
+  .torre__rotulos { min-width: 11.5rem; }
 }
 
 /* ---------- A subida: sequência presa ao scroll ---------- */
@@ -851,8 +880,8 @@ section[id] { scroll-margin-top: calc(var(--topo) - 1px); }
 
 .jornada__andar {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
+  align-items: flex-end;
+  gap: 16px;
   color: var(--aurora);
 }
 .jornada__andar-num {
@@ -862,10 +891,24 @@ section[id] { scroll-margin-top: calc(var(--topo) - 1px); }
   line-height: 0.9;
   font-variant-numeric: tabular-nums lining-nums;
 }
-.jornada__andar-rotulo {
+/* ao lado do número: a zona em destaque e o pavimento embaixo */
+.jornada__andar-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 0.35em;
+  padding-left: 14px;
+  border-left: 1px solid rgba(243, 201, 139, 0.45);
+  line-height: 1.2;
+}
+.jornada__andar-texto strong {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--calcario);
+}
+.jornada__andar-texto span {
   font-size: var(--t-0);
-  font-weight: 500;
-  color: rgba(237, 238, 232, 0.8);
+  color: rgba(237, 238, 232, 0.72);
 }
 
 .jornada__nome {
@@ -891,57 +934,107 @@ section[id] { scroll-margin-top: calc(var(--topo) - 1px); }
   font-variant-numeric: tabular-nums;
 }
 
-/* o trilho do elevador: o mesmo prédio, em escala real de andares */
+/* o elevador: o mesmo prédio da seção, com a zona atual acesa
+   e a cabine subindo pelo poço */
 .jornada__trilho {
-  grid-row: 2 / 4;
-  grid-column: 2;
-  position: relative;
-  align-self: stretch;
-  width: 64px;
-  margin: 24px 0 8px;
-}
-.jornada__trilho::before {
-  content: "";
-  position: absolute;
-  top: 0; bottom: 0;
-  right: 8px;
-  width: 1px;
-  background: linear-gradient(to top, rgba(237, 238, 232, 0.5), rgba(237, 238, 232, 0.12));
-}
-.jornada__marca {
-  position: absolute;
-  right: 20px;
-  bottom: calc(var(--f) / 24 * 100%);
-  transform: translateY(50%);
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: rgba(237, 238, 232, 0.55);
-  white-space: nowrap;
-}
-.jornada__elevador {
-  position: absolute;
-  right: 3px;
-  bottom: 0;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: var(--aurora);
-  box-shadow: 0 0 0 4px rgba(243, 201, 139, 0.18), 0 0 18px rgba(243, 201, 139, 0.8);
-  transform: translateY(50%);
-  will-change: bottom;
-}
-
-.jornada__dica {
+  --traco: rgba(237, 238, 232, 0.45);
+  --corpo: rgba(233, 221, 200, 0.16);
+  --aleta: rgba(252, 251, 247, 0.5);
+  --janela: rgba(4, 16, 17, 0.55);
+  --vidro: rgba(132, 185, 194, 0.22);
+  --escuro: rgba(4, 16, 17, 0.6);
+  --madeira: rgba(188, 143, 98, 0.55);
+  --neutro: rgba(233, 221, 200, 0.1);
+  --agua: rgba(127, 192, 201, 0.8);
+  --folha: rgba(157, 184, 164, 0.5);
+  --folha-escura: rgba(157, 184, 164, 0.8);
+  --zona: rgba(233, 221, 200, 0.14);
+  --zona-ativa: rgba(243, 201, 139, 0.92);
+  --z-rooftop: var(--zona);
+  --z-lazer: var(--zona);
+  --z-terreo: var(--zona);
   grid-row: 3;
   grid-column: 2;
   align-self: end;
-  justify-self: end;
-  display: none;
+  position: relative;
+  width: clamp(64px, 6.5vw, 92px);
+  margin-left: 20px;
+  transition: --z-rooftop 0.4s ease, --z-lazer 0.4s ease, --z-terreo 0.4s ease, --janela 0.4s ease;
 }
+.jornada[data-zona="terreo"] .jornada__trilho { --z-terreo: var(--zona-ativa); }
+.jornada[data-zona="sobressolo"] .jornada__trilho { --z-lazer: var(--zona-ativa); }
+.jornada[data-zona="rooftop"] .jornada__trilho { --z-rooftop: var(--zona-ativa); }
+
+.jornada__predio {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 120 / 300;
+  overflow: visible;
+}
+/* o poço do elevador: discreto parado, aceso enquanto a cabine anda */
+.jornada__poco {
+  fill: none;
+  stroke: rgba(243, 201, 139, 0.55);
+  stroke-width: 1;
+  stroke-dasharray: 1.5 2.5;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.25;
+  transition: opacity 0.4s ease;
+}
+.jornada[data-zona="subindo"] .jornada__poco,
+.jornada[data-zona="descendo"] .jornada__poco { opacity: 1; }
+
+/* a cabine: uma luz que sobe pelo prédio, com rastro de luz atrás */
+.jornada__elevador {
+  position: absolute;
+  left: 51.5%;
+  bottom: 9%;
+  width: 7px;
+  height: 10px;
+  border-radius: 2px;
+  background: linear-gradient(#FFF1D6, var(--aurora));
+  box-shadow: 0 0 0 2.5px rgba(243, 201, 139, 0.22), 0 0 14px 2px rgba(243, 201, 139, 0.85);
+  transform: translate(-50%, 50%);
+  will-change: bottom;
+}
+.jornada__elevador::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 3px;
+  height: 0;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: height 0.35s ease, opacity 0.35s ease;
+}
+/* subindo: o rastro fica embaixo da cabine; descendo: em cima */
+.jornada[data-zona="subindo"] .jornada__elevador::after {
+  top: 100%;
+  height: 46px;
+  opacity: 1;
+  background: linear-gradient(rgba(243, 201, 139, 0.85), rgba(243, 201, 139, 0));
+}
+.jornada[data-zona="descendo"] .jornada__elevador::after {
+  bottom: 100%;
+  height: 46px;
+  opacity: 1;
+  background: linear-gradient(rgba(243, 201, 139, 0), rgba(243, 201, 139, 0.85));
+}
+/* chegou ao andar: a luz pulsa uma vez, como o aviso de chegada do elevador */
+.jornada__elevador.chegou { animation: chegou 0.7s ease-out; }
+@keyframes chegou {
+  0%   { box-shadow: 0 0 0 2.5px rgba(243, 201, 139, 0.22), 0 0 14px 2px rgba(243, 201, 139, 0.85); }
+  35%  { box-shadow: 0 0 0 9px rgba(243, 201, 139, 0.3), 0 0 26px 8px rgba(243, 201, 139, 0.95); }
+  100% { box-shadow: 0 0 0 2.5px rgba(243, 201, 139, 0.22), 0 0 14px 2px rgba(243, 201, 139, 0.85); }
+}
+/* seta ao lado de "Subindo" / "Descendo", como no painel do elevador */
+.jornada[data-zona="subindo"] [data-jornada-zona]::after { content: " ↑"; color: var(--aurora); }
+.jornada[data-zona="descendo"] [data-jornada-zona]::after { content: " ↓"; color: var(--aurora); }
 
 @media (max-width: 699px) {
-  .jornada__trilho { width: 52px; }
-  .jornada__marca { right: 18px; font-size: 0.6875rem; }
+  .jornada__trilho { width: 54px; margin-left: 12px; }
 }
 
 /* telas baixas (celular deitado): título some, painel mais compacto */
@@ -950,13 +1043,13 @@ section[id] { scroll-margin-top: calc(var(--topo) - 1px); }
   .jornada__conteudo { padding-top: calc(var(--topo) + 4px); padding-bottom: 16px; }
   .jornada__andar-num { font-size: 3rem; }
   .jornada__nome { margin-top: 6px; font-size: 1.375rem; }
+  .jornada__trilho { width: 44px; }
   .jornada__contagem { display: none; }
 }
 
 /* movimento reduzido ou sem JS: uma imagem fixa, scroll normal */
 .jornada--estatica { height: min(82svh, 760px); min-height: 520px; }
 .jornada--estatica .jornada__palco { clip-path: inset(0 var(--margem) round var(--raio-g)); }
-.jornada--estatica .jornada__trilho,
 .jornada--estatica .jornada__contagem { display: none; }
 
 /* cartões */
