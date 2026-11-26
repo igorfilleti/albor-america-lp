@@ -33,7 +33,8 @@
     ScrollTrigger.config({ ignoreMobileResize: true });
   }
   if (temGsap && window.Lenis && !movimentoReduzido) {
-    lenis = new Lenis({ lerp: 0.1, anchors: false });
+    // lerp mais alto = rolagem mais responsiva (0.1 dava sensação de "arrastar")
+    lenis = new Lenis({ lerp: 0.16, anchors: false });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((tempo) => lenis.raf(tempo * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -226,6 +227,10 @@
       return;
     }
 
+    // modo animado: a imagem estática (só para "reduzir movimento") não precisa baixar
+    const estatica = jornada.querySelector('.jornada__estatica');
+    if (estatica) estatica.remove();
+
     const ctx = tela.getContext('2d', { alpha: false });
     const celular = window.matchMedia('(max-width: 699px) and (orientation: portrait)');
     let imagens = [];
@@ -233,27 +238,29 @@
     const estado = { p: 0 };
     let ativo = -1;
 
-    // Carrega o conjunto certo (celular ou computador): a primeira já, as outras em seguida
+    // Carrega o conjunto certo (celular ou computador): a primeira já, as outras em seguida.
+    // decode() deixa cada imagem decodificada antes do primeiro desenho (sem piscar).
     const carrega = () => {
       const sufixo = celular.matches ? '_celular' : '';
-      const conjunto = CENAS.map((c) => {
+      const conjunto = CENAS.map(() => null);
+      imagens = conjunto;
+      const busca = (k) => {
         const img = new Image();
         img.decoding = 'async';
-        img.dataset.pronta = '';
-        img.src = `img/jornada/${c.arq}${sufixo}.webp`;
-        return img;
-      });
-      imagens = conjunto;
-      const marca = (img) => img.decode().catch(() => {}).then(() => {
-        if (imagens !== conjunto) return;
-        img.dataset.pronta = '1';
-        desenha();
-      });
-      conjunto[0].fetchPriority = 'high';
-      marca(conjunto[0]).then(() => conjunto.slice(1).forEach(marca));
+        if (k === 0) img.fetchPriority = 'high';
+        img.src = `img/jornada/${CENAS[k].arq}${sufixo}.webp`;
+        return img.decode()
+          .catch(() => {})
+          .then(() => {
+            if (imagens !== conjunto) return;
+            conjunto[k] = img;
+            desenha();
+          });
+      };
+      busca(0).then(() => CENAS.slice(1).forEach((c, k) => busca(k + 1)));
     };
 
-    const pronta = (k) => imagens[k] && imagens[k].dataset.pronta === '1';
+    const pronta = (k) => !!imagens[k];
     // se a imagem pedida ainda não chegou, usa a mais próxima que já chegou (sem piscar)
     const maisProxima = (k) => {
       for (let d = 0; d < total; d++) {
@@ -263,16 +270,20 @@
       return -1;
     };
 
+    // Nítido em telas densas, mas com teto de pixels: acima de ~2,6 milhões
+    // o canvas fica caro de pintar e as fotos de origem nem têm tanto detalhe.
+    const TETO_PIXELS = 2.6e6;
     const dimensiona = () => {
       const r = tela.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const l = Math.max(1, Math.round(r.width * dpr));
-      const a = Math.max(1, Math.round(r.height * dpr));
+      const area = Math.max(1, r.width * r.height);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(TETO_PIXELS / area));
+      const l = Math.max(1, Math.round(r.width * Math.max(1, dpr)));
+      const a = Math.max(1, Math.round(r.height * Math.max(1, dpr)));
       if (l !== largura || a !== altura) {
         largura = tela.width = l;
         altura = tela.height = a;
         ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
+        ctx.imageSmoothingQuality = 'medium';
       }
       desenha();
     };
@@ -280,7 +291,7 @@
     // corte tipo "cover", sem distorcer, com o centro de interesse da cena
     const cobre = (k, escala, alfa) => {
       const img = imagens[k];
-      const iw = img.naturalWidth, ih = img.naturalHeight;
+      const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
       if (!iw || !ih) return;
       const s = Math.max(largura / iw, altura / ih) * escala;
       const w = iw * s, h = ih * s;
@@ -330,8 +341,20 @@
       }
     }
 
-    carrega();
-    celular.addEventListener('change', carrega);
+    // Só baixa as imagens da subida depois que a página abriu (load) e quando a
+    // seção está a menos de uma tela de distância: a abertura carrega sem disputa.
+    let carregou = false;
+    const observaProximidade = () => {
+      new IntersectionObserver((entradas, obs) => {
+        if (!entradas[0].isIntersecting || carregou) return;
+        carregou = true;
+        carrega();
+        obs.disconnect();
+      }, { rootMargin: '100% 0px' }).observe(jornada);
+    };
+    if (document.readyState === 'complete') observaProximidade();
+    else window.addEventListener('load', observaProximidade, { once: true });
+    celular.addEventListener('change', () => { if (carregou) carrega(); });
     new ResizeObserver(dimensiona).observe(tela);
 
     // O cartão arredondado se abre em tela cheia enquanto a subida chega ao topo
@@ -397,8 +420,9 @@
     const item = itens[atual];
     const img = item.querySelector('img');
 
+    // na grade fica a miniatura; a tela cheia usa a versão grande
     const troca = () => {
-      telaImg.src = img.currentSrc || img.src;
+      telaImg.src = img.dataset.full || img.currentSrc || img.src;
       telaImg.alt = img.alt;
       telaLegenda.textContent = item.dataset.legenda;
       telaContagem.textContent = `${atual + 1} de ${itens.length}`;
@@ -414,7 +438,7 @@
 
     [atual - 1, atual + 1].forEach((i) => {
       const viz = itens[(i + itens.length) % itens.length].querySelector('img');
-      new Image().src = viz.currentSrc || viz.src;
+      new Image().src = viz.dataset.full || viz.currentSrc || viz.src;
     });
   };
 

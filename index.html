@@ -21,10 +21,10 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Hanken+Grotesk:wght@400;600&display=swap" rel="stylesheet">
 
-  <link rel="preload" as="image" href="img/albor_vista_drone_01.webp" media="(orientation: portrait)">
-  <link rel="preload" as="image" href="img/albor_fachada_01.webp" media="(orientation: landscape)">
+  <link rel="preload" as="image" href="img/albor_vista_drone_01_860.webp" imagesrcset="img/albor_vista_drone_01_860.webp 860w, img/albor_vista_drone_01.webp 1200w" imagesizes="100vw" media="(orientation: portrait)">
+  <link rel="preload" as="image" href="img/albor_fachada_01_1280.webp" imagesrcset="img/albor_fachada_01_1280.webp 1280w, img/albor_fachada_01.webp 1920w" imagesizes="100vw" media="(orientation: landscape)">
 
   <link rel="stylesheet" href="estilo.css">
 </head>
@@ -60,8 +60,8 @@
     <!-- 2. Abertura -->
     <section class="abertura" id="inicio" aria-labelledby="abertura-titulo">
       <picture class="abertura__foto">
-        <source media="(orientation: portrait)" srcset="img/albor_vista_drone_01.webp" width="1200" height="1490">
-        <img src="img/albor_fachada_01.webp" width="1920" height="1072"
+        <source media="(orientation: portrait)" srcset="img/albor_vista_drone_01_860.webp 860w, img/albor_vista_drone_01.webp 1200w" sizes="100vw" width="1200" height="1490">
+        <img src="img/albor_fachada_01_1280.webp" srcset="img/albor_fachada_01_1280.webp 1280w, img/albor_fachada_01.webp 1920w" sizes="100vw" width="1920" height="1072"
              alt="A torre única do Albor América ao entardecer, no Jardim América, em São José dos Campos"
              fetchpriority="high" decoding="async">
       </picture>
@@ -148,7 +148,7 @@
 
       <ul class="cartoes">
         <li class="cartao" data-andar="rooftop">
-          <img class="cartao__foto" src="img/albor_fire_lounge_01.webp" width="900" height="506" loading="lazy" decoding="async"
+          <img class="cartao__foto" src="img/albor_fire_lounge_01_600.webp" srcset="img/albor_fire_lounge_01_600.webp 600w, img/albor_fire_lounge_01.webp 900w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 100vw" width="900" height="506" loading="lazy" decoding="async"
                alt="Fire lounge no rooftop ao pôr do sol: sofá curvo branco ao redor de uma lareira acesa, cercado de folhagens">
           <div class="cartao__corpo">
             <p class="cartao__andar">Rooftop, 24º andar</p>
@@ -160,7 +160,7 @@
           </div>
         </li>
         <li class="cartao" data-andar="rooftop">
-          <img class="cartao__foto" src="img/albor_gym_e_box_02.webp" width="900" height="506" loading="lazy" decoding="async"
+          <img class="cartao__foto" src="img/albor_gym_e_box_02_600.webp" srcset="img/albor_gym_e_box_02_600.webp 600w, img/albor_gym_e_box_02.webp 900w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 100vw" width="900" height="506" loading="lazy" decoding="async"
                alt="Albor Gym no fim da tarde: esteiras e aparelhos de musculação diante de janelas do piso ao teto">
           <div class="cartao__corpo">
             <p class="cartao__andar">Rooftop, 24º andar</p>
@@ -172,7 +172,7 @@
           </div>
         </li>
         <li class="cartao" data-andar="rooftop">
-          <img class="cartao__foto" src="img/albor_coworking_01.webp" width="900" height="394" loading="lazy" decoding="async"
+          <img class="cartao__foto" src="img/albor_coworking_01_600.webp" srcset="img/albor_coworking_01_600.webp 600w, img/albor_coworking_01.webp 900w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 100vw" width="900" height="394" loading="lazy" decoding="async"
                alt="Coworking com mesa compartilhada, cadeiras de escritório e cabine de reunião em vidro e madeira">
           <div class="cartao__corpo">
             <p class="cartao__andar">Rooftop, 24º andar</p>
@@ -184,7 +184,7 @@
           </div>
         </li>
         <li class="cartao" data-andar="sobressolo">
-          <img class="cartao__foto" src="img/albor_piscina_03.webp" width="900" height="468" loading="lazy" decoding="async"
+          <img class="cartao__foto" src="img/albor_piscina_03_600.webp" srcset="img/albor_piscina_03_600.webp 600w, img/albor_piscina_03.webp 900w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 100vw" width="900" height="468" loading="lazy" decoding="async"
                alt="Piscina lounge e piscina kids sob céu azul, com espreguiçadeiras ao longo do deck">
           <div class="cartao__corpo">
             <p class="cartao__andar">2º sobressolo</p>
@@ -196,7 +196,7 @@
           </div>
         </li>
         <li class="cartao" data-andar="sobressolo">
-          <img class="cartao__foto" src="img/albor_parquinho_pet_quadra_06.webp" width="900" height="502" loading="lazy" decoding="async"
+          <img class="cartao__foto" src="img/albor_parquinho_pet_quadra_06_600.webp" srcset="img/albor_parquinho_pet_quadra_06_600.webp 600w, img/albor_parquinho_pet_quadra_06.webp 900w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 100vw" width="900" height="502" loading="lazy" decoding="async"
                alt="Quadra poliesportiva ao entardecer, com tabela de basquete, gol e palmeiras ao fundo">
           <div class="cartao__corpo">
             <p class="cartao__andar">2º sobressolo</p>
@@ -208,7 +208,7 @@
           </div>
         </li>
         <li class="cartao" data-andar="terreo">
-          <img class="cartao__foto" src="img/albor_market_01.webp" width="900" height="500" loading="lazy" decoding="async"
+          <img class="cartao__foto" src="img/albor_market_01_600.webp" srcset="img/albor_market_01_600.webp 600w, img/albor_market_01.webp 900w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 100vw" width="900" height="500" loading="lazy" decoding="async"
                alt="Albor Market: minimercado com prateleiras iluminadas, geladeiras de bebidas e freezers">
           <div class="cartao__corpo">
             <p class="cartao__andar">Térreo</p>
@@ -234,18 +234,18 @@
       </div>
 
       <ul class="mosaico" data-galeria>
-        <li><button type="button" class="mosaico__item" data-legenda="Piscina lounge, 2º sobressolo"><img src="img/albor_piscina_07.webp" width="1200" height="642" loading="lazy" decoding="async" alt="Piscina lounge ao pôr do sol, com a borda voltada para o horizonte e espreguiçadeiras alinhadas no deck"></button></li>
-        <li><button type="button" class="mosaico__item" data-legenda="Fire lounge, rooftop"><img src="img/albor_fire_lounge_05.webp" width="1200" height="676" loading="lazy" decoding="async" alt="Fire lounge no rooftop ao entardecer, com sofá contínuo, almofadas e lareira acesa entre folhagens iluminadas"></button></li>
-        <li><button type="button" class="mosaico__item" data-legenda="Apartamento tipo 1, cozinha e varanda"><img src="img/albor_tipo1_10.webp" width="1200" height="770" loading="lazy" decoding="async" alt="Cozinha do apartamento tipo 1 integrada à varanda gourmet, com mesa redonda de madeira e o pôr do sol ao fundo"></button></li>
-        <li><button type="button" class="mosaico__item" data-legenda="Skybar interno, rooftop"><img src="img/albor_skybar_interno_01.webp" width="1200" height="676" loading="lazy" decoding="async" alt="Skybar interno com sofá de couro caramelo, mesas redondas, bancada com churrasqueira e janelas para o céu do fim de tarde"></button></li>
-        <li><button type="button" class="mosaico__item" data-legenda="Albor Club, 2º sobressolo"><img src="img/albor_club_gourmet_07.webp" width="1200" height="784" loading="lazy" decoding="async" alt="Albor Club ao anoitecer: espaço gourmet coberto com palmeiras, espreguiçadeiras e piscina iluminada"></button></li>
-        <li><button type="button" class="mosaico__item" data-legenda="Recepção, térreo"><img src="img/albor_recepcao_02.webp" width="1200" height="676" loading="lazy" decoding="async" alt="Recepção do térreo com sofá curvo branco, poltronas caramelo, painel de madeira e jardim interno"></button></li>
-        <li><button type="button" class="mosaico__item" data-legenda="Lounge de jogos, 2º sobressolo"><img src="img/albor_lounge_de_jogos_03.webp" width="1200" height="680" loading="lazy" decoding="async" alt="Lounge de jogos com mesa de xadrez, pingue-pongue, pebolim e parede azul-marinho com a palavra Play em neon"></button></li>
-        <li><button type="button" class="mosaico__item" data-legenda="Apartamento tipo 4, sala e varanda"><img src="img/albor_tipo4_02.webp" width="1200" height="684" loading="lazy" decoding="async" alt="Sala do apartamento tipo 4 com arandelas redondas, bancada integrada e a varanda aberta para o pôr do sol"></button></li>
-        <li><button type="button" class="mosaico__item" data-legenda="Brinquedoteca, 2º sobressolo"><img src="img/albor_brinquedoteca_02.webp" width="1200" height="676" loading="lazy" decoding="async" alt="Brinquedoteca com piscina de bolinhas, pufes coloridos e paredes em faixas pastel"></button></li>
-        <li><button type="button" class="mosaico__item" data-legenda="Albor Gym, rooftop"><img src="img/albor_gym_e_box_03.webp" width="1200" height="676" loading="lazy" decoding="async" alt="Mulher corre na esteira do Albor Gym diante de janelas amplas, com o sol se pondo sobre a cidade"></button></li>
-        <li><button type="button" class="mosaico__item" data-legenda="Salão de festas, 2º sobressolo"><img src="img/albor_salao_de_festas_04.webp" width="1200" height="534" loading="lazy" decoding="async" alt="Salão de festas com mesas redondas de madeira, parede mostarda e caixilhos do piso ao teto abertos para o jardim"></button></li>
-        <li><button type="button" class="mosaico__item" data-legenda="Apartamento tipo 1 ampliado, cozinha"><img src="img/albor_tipo1_ampliado_07.webp" width="1200" height="666" loading="lazy" decoding="async" alt="Cozinha do apartamento tipo 1 ampliado, com ilha de pedra clara, banquetas de madeira e armários amadeirados"></button></li>
+        <li><button type="button" class="mosaico__item" data-legenda="Piscina lounge, 2º sobressolo"><img src="img/albor_piscina_07_640.webp" srcset="img/albor_piscina_07_640.webp 640w, img/albor_piscina_07.webp 1200w" sizes="(min-width: 900px) 600px, 100vw" data-full="img/albor_piscina_07.webp" width="1200" height="642" loading="lazy" decoding="async" alt="Piscina lounge ao pôr do sol, com a borda voltada para o horizonte e espreguiçadeiras alinhadas no deck"></button></li>
+        <li><button type="button" class="mosaico__item" data-legenda="Fire lounge, rooftop"><img src="img/albor_fire_lounge_05_640.webp" srcset="img/albor_fire_lounge_05_640.webp 640w, img/albor_fire_lounge_05.webp 1200w" sizes="(min-width: 900px) 300px, (min-width: 600px) 33vw, 50vw" data-full="img/albor_fire_lounge_05.webp" width="1200" height="676" loading="lazy" decoding="async" alt="Fire lounge no rooftop ao entardecer, com sofá contínuo, almofadas e lareira acesa entre folhagens iluminadas"></button></li>
+        <li><button type="button" class="mosaico__item" data-legenda="Apartamento tipo 1, cozinha e varanda"><img src="img/albor_tipo1_10_640.webp" srcset="img/albor_tipo1_10_640.webp 640w, img/albor_tipo1_10.webp 1200w" sizes="(min-width: 900px) 300px, (min-width: 600px) 33vw, 50vw" data-full="img/albor_tipo1_10.webp" width="1200" height="770" loading="lazy" decoding="async" alt="Cozinha do apartamento tipo 1 integrada à varanda gourmet, com mesa redonda de madeira e o pôr do sol ao fundo"></button></li>
+        <li><button type="button" class="mosaico__item" data-legenda="Skybar interno, rooftop"><img src="img/albor_skybar_interno_01_640.webp" srcset="img/albor_skybar_interno_01_640.webp 640w, img/albor_skybar_interno_01.webp 1200w" sizes="(min-width: 900px) 300px, (min-width: 600px) 33vw, 50vw" data-full="img/albor_skybar_interno_01.webp" width="1200" height="676" loading="lazy" decoding="async" alt="Skybar interno com sofá de couro caramelo, mesas redondas, bancada com churrasqueira e janelas para o céu do fim de tarde"></button></li>
+        <li><button type="button" class="mosaico__item" data-legenda="Albor Club, 2º sobressolo"><img src="img/albor_club_gourmet_07_640.webp" srcset="img/albor_club_gourmet_07_640.webp 640w, img/albor_club_gourmet_07.webp 1200w" sizes="(min-width: 900px) 300px, (min-width: 600px) 33vw, 50vw" data-full="img/albor_club_gourmet_07.webp" width="1200" height="784" loading="lazy" decoding="async" alt="Albor Club ao anoitecer: espaço gourmet coberto com palmeiras, espreguiçadeiras e piscina iluminada"></button></li>
+        <li><button type="button" class="mosaico__item" data-legenda="Recepção, térreo"><img src="img/albor_recepcao_02_640.webp" srcset="img/albor_recepcao_02_640.webp 640w, img/albor_recepcao_02.webp 1200w" sizes="(min-width: 900px) 300px, (min-width: 600px) 33vw, 50vw" data-full="img/albor_recepcao_02.webp" width="1200" height="676" loading="lazy" decoding="async" alt="Recepção do térreo com sofá curvo branco, poltronas caramelo, painel de madeira e jardim interno"></button></li>
+        <li><button type="button" class="mosaico__item" data-legenda="Lounge de jogos, 2º sobressolo"><img src="img/albor_lounge_de_jogos_03_640.webp" srcset="img/albor_lounge_de_jogos_03_640.webp 640w, img/albor_lounge_de_jogos_03.webp 1200w" sizes="(min-width: 900px) 300px, (min-width: 600px) 33vw, 50vw" data-full="img/albor_lounge_de_jogos_03.webp" width="1200" height="680" loading="lazy" decoding="async" alt="Lounge de jogos com mesa de xadrez, pingue-pongue, pebolim e parede azul-marinho com a palavra Play em neon"></button></li>
+        <li><button type="button" class="mosaico__item" data-legenda="Apartamento tipo 4, sala e varanda"><img src="img/albor_tipo4_02_640.webp" srcset="img/albor_tipo4_02_640.webp 640w, img/albor_tipo4_02.webp 1200w" sizes="(min-width: 900px) 300px, (min-width: 600px) 33vw, 50vw" data-full="img/albor_tipo4_02.webp" width="1200" height="684" loading="lazy" decoding="async" alt="Sala do apartamento tipo 4 com arandelas redondas, bancada integrada e a varanda aberta para o pôr do sol"></button></li>
+        <li><button type="button" class="mosaico__item" data-legenda="Brinquedoteca, 2º sobressolo"><img src="img/albor_brinquedoteca_02_640.webp" srcset="img/albor_brinquedoteca_02_640.webp 640w, img/albor_brinquedoteca_02.webp 1200w" sizes="(min-width: 900px) 300px, (min-width: 600px) 33vw, 50vw" data-full="img/albor_brinquedoteca_02.webp" width="1200" height="676" loading="lazy" decoding="async" alt="Brinquedoteca com piscina de bolinhas, pufes coloridos e paredes em faixas pastel"></button></li>
+        <li><button type="button" class="mosaico__item" data-legenda="Albor Gym, rooftop"><img src="img/albor_gym_e_box_03_640.webp" srcset="img/albor_gym_e_box_03_640.webp 640w, img/albor_gym_e_box_03.webp 1200w" sizes="(min-width: 900px) 300px, (min-width: 600px) 33vw, 50vw" data-full="img/albor_gym_e_box_03.webp" width="1200" height="676" loading="lazy" decoding="async" alt="Mulher corre na esteira do Albor Gym diante de janelas amplas, com o sol se pondo sobre a cidade"></button></li>
+        <li><button type="button" class="mosaico__item" data-legenda="Salão de festas, 2º sobressolo"><img src="img/albor_salao_de_festas_04_640.webp" srcset="img/albor_salao_de_festas_04_640.webp 640w, img/albor_salao_de_festas_04.webp 1200w" sizes="(min-width: 900px) 300px, (min-width: 600px) 33vw, 50vw" data-full="img/albor_salao_de_festas_04.webp" width="1200" height="534" loading="lazy" decoding="async" alt="Salão de festas com mesas redondas de madeira, parede mostarda e caixilhos do piso ao teto abertos para o jardim"></button></li>
+        <li><button type="button" class="mosaico__item" data-legenda="Apartamento tipo 1 ampliado, cozinha"><img src="img/albor_tipo1_ampliado_07_640.webp" srcset="img/albor_tipo1_ampliado_07_640.webp 640w, img/albor_tipo1_ampliado_07.webp 1200w" sizes="(min-width: 900px) 300px, (min-width: 600px) 33vw, 50vw" data-full="img/albor_tipo1_ampliado_07.webp" width="1200" height="666" loading="lazy" decoding="async" alt="Cozinha do apartamento tipo 1 ampliado, com ilha de pedra clara, banquetas de madeira e armários amadeirados"></button></li>
       </ul>
     </section>
 
